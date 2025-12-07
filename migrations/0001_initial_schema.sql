@@ -1,6 +1,9 @@
 -- Schema for Caminho Diário com Deus / Caminho Diário White Label
 -- PostgreSQL compatible
 
+-- Ensure UUID generation helpers exist for gen_random_uuid()
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 -- Tenants (including default B2C tenant)
 CREATE TABLE tenants (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
