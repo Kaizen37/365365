@@ -1,14 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import { env } from './env.js';
-import { router, stripeWebhookHandler } from './routes.js';
+import { router, stripeWebhookRouter } from './routes.js';
 
 export function createApp() {
   const app = express();
   app.use(cors());
 
   // Stripe exige corpo bruto para validação da assinatura; registre antes do JSON parser
-  app.post('/api/webhooks/stripe', express.raw({ type: 'application/json' }), stripeWebhookHandler);
+  app.use('/api/webhooks', stripeWebhookRouter);
 
   // Demais rotas podem usar JSON normalmente
   app.use(express.json());

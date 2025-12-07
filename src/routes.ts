@@ -3,6 +3,7 @@ import { env } from './env.js';
 import { stripeClient, requireStripeSecret } from './stripe.js';
 
 export const router = express.Router();
+export const stripeWebhookRouter = express.Router();
 
 router.get('/config', (_req, res) => {
   res.json({
@@ -67,6 +68,8 @@ export const stripeWebhookHandler: express.RequestHandler = (req, res, next) => 
     next(err);
   }
 };
+
+stripeWebhookRouter.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhookHandler);
 
 router.post('/ia/consume-credit', (req, res) => {
   const { creditsAvailable } = req.body as { creditsAvailable?: number };
